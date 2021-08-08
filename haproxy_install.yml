@@ -1,0 +1,41 @@
+# haproxy_install.yml
+
+---
+- name: install haproxy
+  hosts: haproxy
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: install haproxy
+      yum:
+        name: haproxy
+        state: present
+
+    - name: Configure haproxy
+      copy:
+        src: /home/vagrant/haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg
+        mode: 0644
+        
+    - name: start firewalld
+      service:
+        name: firewalld
+        state: started
+
+    - name: open 80 port
+      firewalld:
+        permanent: yes
+        immediate: yes
+        port: 80/tcp
+        state: enabled
+
+    - name: reload firewalld
+      systemd:
+        name: firewalld
+        state: reloaded
+
+    - name: start haproxy
+      service:
+        name: haproxy
+        state: started
