@@ -62,7 +62,6 @@ Vagrant.configure(Vagrant_API_Version) do |config|
 	 cfg.vm.provision "shell", path: "bootstrap.sh"
 	 cfg.vm.provision "file", source: "Ansible_env_ready.yml", destination: "Ansible_env_ready.yml"
 	 cfg.vm.provision "shell", inline: "ansible-playbook Ansible_env_ready.yml"
-	 #cfg.vm.provision "shell", path: "bash_ssh_conf_CentOS.sh"
 	 cfg.vm.provision "file", source: "Auto_known_host.yml", destination: "Auto_known_host.yml"
 	 cfg.vm.provision "shell", inline: "ansible-playbook Auto_known_host.yml", privileged: false
 	 cfg.vm.provision "file", source: "Auto_authorized_keys.yml", destination: "Auto_authorized_keys.yml"
